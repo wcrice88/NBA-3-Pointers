@@ -4,6 +4,10 @@ install.packages("stargazer")
 install.packages("wooldridge")
 install.packages("jtools")
 install.packages("huxtable")
+install.packages("officer")
+install.packages("flextable")
+install.packages("openxlsx")
+library(openxlsx)
 library(huxtable)
 library(jtools)
 library(dplyr)
@@ -13,7 +17,8 @@ library(ggplot2)
 library(wooldridge)
 library(readr)
 library(readxl)
-
+library(officer)
+library(flextable)
 
 Team_Stats_NBA_per_100_Poss <- read_excel("~/Downloads/NBA STATS/Team Stats NBA per 100 Poss.xlsx")
 View(Team_Stats_NBA_per_100_Poss)
@@ -46,18 +51,17 @@ summary(NBA_3pt_Simple_Regression)
 Seventies_3pt_Data <- NBA_3pt_Project %>%
   filter(season <1980)
 
-Seventies_Plot <- ggplot(data = Seventies_3pt_Data, aes(x=x3pa_per_100_poss, y=winpercent))+
+Seventies_Plot <- ggplot(data = Seventies_3pt_Data, aes(x=x3p_per_100_poss, y=winpercent))+
   geom_point() +
   ylab("Win Percentage") +
   ylim(0,100) +
-  xlab("3-Point Percentage") +
+  xlab("3-Pointers Made") +
   stat_smooth(method=lm, col="red") +
-  ggtitle("3-Pointers Attempted and Win % During the 1970's")
+  ggtitle("3-Pointers Made and Win % During the 1970's")
 Seventies_Plot
 
-Seventies_Regression <- lm(winpercent ~ x3p_percent + x3p_per_100_poss + x3pa_per_100_poss + x2p_per_100_poss + x2pa_per_100_poss + ft_per_100_poss + fta_per_100_poss + pts_per_100_poss, data = Seventies_3pt_Data)
-export_summs(Seventies_Regression, model.names="Seventies Regression")
-
+Seventies_Regression <- lm(winpercent ~ x3p_per_100_poss + x3pa_per_100_poss + x2p_per_100_poss + x2pa_per_100_poss + ft_per_100_poss + fta_per_100_poss + orb_per_100_poss + drb_per_100_poss + blk_per_100_poss + tov_per_100_poss + stl_per_100_poss + ast_per_100_poss, data = Seventies_3pt_Data)
+export_summs(Seventies_Regression, model.names="Seventies Regression", to.file = "xlsx", file.name = "Gamma1970.xlsx")
 
 #Data, Plot, and Regression for 3-Point Importance During 1980's
 
@@ -65,17 +69,17 @@ export_summs(Seventies_Regression, model.names="Seventies Regression")
 Eighties_3pt_Data <- NBA_3pt_Project %>%
   filter(between(season, 1980, 1989))
 
-Eighties_Plot <- ggplot(data = Eighties_3pt_Data, aes(x=x3pa_per_100_poss, y=winpercent))+
+Eighties_Plot <- ggplot(data = Eighties_3pt_Data, aes(x=x3p_per_100_poss, y=winpercent))+
   geom_point() +
   ylab("Win Percentage") +
   ylim(0,100) +
-  xlab("3-Point Percentage") +
+  xlab("3-Pointers Made") +
   stat_smooth(method=lm, col="red") +
-  ggtitle("3-Pointers Attempted and Win % During the 1980's")
+  ggtitle("3-Pointers Made and Win % During the 1980's")
 Eighties_Plot
 
-Eighties_Regression <- lm(winpercent ~ x3p_percent + x3p_per_100_poss + x3pa_per_100_poss + x2p_per_100_poss + x2pa_per_100_poss + ft_per_100_poss + fta_per_100_poss + pts_per_100_poss, data = Eighties_3pt_Data)
-export_summs(Eighties_Regression, model.names="Eighties Regression")
+Eighties_Regression <- lm(winpercent ~ x3p_per_100_poss + x3pa_per_100_poss + x2p_per_100_poss + x2pa_per_100_poss + ft_per_100_poss + fta_per_100_poss + orb_per_100_poss + drb_per_100_poss + blk_per_100_poss + tov_per_100_poss + stl_per_100_poss + ast_per_100_poss, data = Eighties_3pt_Data)
+export_summs(Eighties_Regression, model.names="Eighties Regression", to.file = "xlsx", file.name = "Gamma1980.xlsx")
 
 
 #Data, Plot, and Regression for 3-Point Importance During 1990's
@@ -83,17 +87,17 @@ export_summs(Eighties_Regression, model.names="Eighties Regression")
 Nineties_3pt_Data <- NBA_3pt_Project %>%
   filter(between(season, 1990, 1999))
 
-Nineties_Plot <- ggplot(data = Nineties_3pt_Data, aes(x=x3pa_per_100_poss, y=winpercent))+
+Nineties_Plot <- ggplot(data = Nineties_3pt_Data, aes(x=x3p_per_100_poss, y=winpercent))+
   geom_point() +
   ylab("Win Percentage") +
   ylim(0,100) +
-  xlab("3-Point Percentage") +
+  xlab("3-Pointers Made") +
   stat_smooth(method=lm, col="red") +
-  ggtitle("3-Pointers Attempted and Win % During the 1990's")
+  ggtitle("3-Pointers Made and Win % During the 1990's")
 Nineties_Plot
 
-Nineties_Regression <- lm(winpercent ~ x3p_percent + x3p_per_100_poss + x3pa_per_100_poss + x2p_per_100_poss + x2pa_per_100_poss + ft_per_100_poss + fta_per_100_poss + pts_per_100_poss, data = Nineties_3pt_Data)
-export_summs(Nineties_Regression, model.names="Nineties Regression")
+Nineties_Regression <- lm(winpercent ~ x3p_per_100_poss + x3pa_per_100_poss + x2p_per_100_poss + x2pa_per_100_poss + ft_per_100_poss + fta_per_100_poss + orb_per_100_poss + drb_per_100_poss + blk_per_100_poss + tov_per_100_poss + stl_per_100_poss + ast_per_100_poss, data = Nineties_3pt_Data)
+export_summs(Nineties_Regression, model.names="Nineties Regression", to.file = "xlsx", file.name = "Gamma1990.xlsx")
 
 
 #Data, Plot, and Regression for 3-Point Importance During 2000's
@@ -101,34 +105,34 @@ export_summs(Nineties_Regression, model.names="Nineties Regression")
 Oughts_3pt_Data <- NBA_3pt_Project %>%
   filter(between(season, 2000, 2009))
 
-Oughts_Plot <- ggplot(data = Oughts_3pt_Data, aes(x=x3pa_per_100_poss, y=winpercent))+
+Oughts_Plot <- ggplot(data = Oughts_3pt_Data, aes(x=x3p_per_100_poss, y=winpercent))+
   geom_point() +
   ylab("Win Percentage") +
   ylim(0,100) +
-  xlab("3-Point Percentage") +
+  xlab("3-Pointers Made") +
   stat_smooth(method=lm, col="red") +
-  ggtitle("3-Pointers Attempted and Win % During the 2000's")
+  ggtitle("3-Pointers Made and Win % During the 2000's")
 Oughts_Plot
 
-Oughts_Regression <- lm(winpercent ~ x3p_percent + x3p_per_100_poss + x3pa_per_100_poss + x2p_per_100_poss + x2pa_per_100_poss + ft_per_100_poss + fta_per_100_poss + pts_per_100_poss, data = Oughts_3pt_Data)
-export_summs(Oughts_Regression, model.names="Oughts Regression")
+Oughts_Regression <- lm(winpercent ~ x3p_per_100_poss + x3pa_per_100_poss + x2p_per_100_poss + x2pa_per_100_poss + ft_per_100_poss + fta_per_100_poss + orb_per_100_poss + drb_per_100_poss + blk_per_100_poss + tov_per_100_poss + stl_per_100_poss + ast_per_100_poss, data = Oughts_3pt_Data)
+export_summs(Oughts_Regression, model.names="Oughts Regression", to.file = "xlsx", file.name = "Gamma2000.xlsx")
 
 #Data, Plot, and Regression for 3-Point Importance During 2010's
 
 Tens_3pt_Data <- NBA_3pt_Project %>%
   filter(between(season, 2010, 2019))
 
-Tens_Plot <- ggplot(data = Tens_3pt_Data, aes(x=x3pa_per_100_poss, y=winpercent))+
+Tens_Plot <- ggplot(data = Tens_3pt_Data, aes(x=x3p_per_100_poss, y=winpercent))+
   geom_point() +
   ylab("Win Percentage") +
   ylim(0,100) +
-  xlab("3-Point Percentage") +
+  xlab("3-Pointers Made") +
   stat_smooth(method=lm, col="red") +
-  ggtitle("3-Pointers Attempted and Win % During the 2010's")
+  ggtitle("3-Pointers Made and Win % During the 2010's")
 Tens_Plot
 
-Tens_Regression <- lm(winpercent ~ x3p_percent + x3p_per_100_poss + x3pa_per_100_poss + x2p_per_100_poss + x2pa_per_100_poss + ft_per_100_poss + fta_per_100_poss + pts_per_100_poss, data = Tens_3pt_Data)
-export_summs(Tens_Regression, model.names="Tens Regression")
+Tens_Regression <- lm(winpercent ~ x3p_per_100_poss + x3pa_per_100_poss + x2p_per_100_poss + x2pa_per_100_poss + ft_per_100_poss + fta_per_100_poss + orb_per_100_poss + drb_per_100_poss + blk_per_100_poss + tov_per_100_poss + stl_per_100_poss + ast_per_100_poss, data = Tens_3pt_Data)
+export_summs(Tens_Regression, model.names="Tens Regression", to.file = "xlsx", file.name = "Gamma2010.xlsx")
 
 
 #Data, Plot, and Regression for 3-Point Importance During 2020's
@@ -136,14 +140,15 @@ export_summs(Tens_Regression, model.names="Tens Regression")
 Twenties_3pt_Data <- NBA_3pt_Project %>%
   filter(between(season, 2020, 2023))
 
-Twenties_Plot <- ggplot(data = Twenties_3pt_Data, aes(x=x3pa_per_100_poss, y=winpercent))+
+Twenties_Plot <- ggplot(data = Twenties_3pt_Data, aes(x=x3p_per_100_poss, y=winpercent))+
   geom_point() +
   ylab("Win Percentage") +
   ylim(0,100) +
-  xlab("3-Point Percentage") +
+  xlab("3-Pointers Made") +
   stat_smooth(method=lm, col="red") +
-  ggtitle("3-Pointers Attempted and Win % During the 2020's")
+  ggtitle("3-Pointers Made and Win % During the 2020's")
 Twenties_Plot
 
-Twenties_Regression <- lm(winpercent ~ x3p_percent + x3p_per_100_poss + x3pa_per_100_poss + x2p_per_100_poss + x2pa_per_100_poss + ft_per_100_poss + fta_per_100_poss + pts_per_100_poss, data = Twenties_3pt_Data)
-export_summs(Twenties_Regression, model.names="Twenties Regression")
+Twenties_Regression <- lm(winpercent ~ x3p_per_100_poss + x3pa_per_100_poss + x2p_per_100_poss + x2pa_per_100_poss + ft_per_100_poss + fta_per_100_poss + orb_per_100_poss + drb_per_100_poss + blk_per_100_poss + tov_per_100_poss + stl_per_100_poss + ast_per_100_poss, data = Twenties_3pt_Data)
+export_summs(Twenties_Regression, model.names="Twenties Regression", to.file = "xlsx", file.name = "Gamma2020.xlsx")
+
