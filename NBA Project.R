@@ -48,19 +48,11 @@ summary(NBA_3pt_Simple_Regression)
 
 #Data, Plot, and Regression for 3-Point Importance During 1970's
 
-Seventies_3pt_Data <- NBA_3pt_Project %>%
+Seventies_Data <- NBA_3pt_Project %>%
   filter(season <1980)
 
-Seventies_Plot <- ggplot(data = Seventies_3pt_Data, aes(x=x3p_per_100_poss, y=winpercent))+
-  geom_point() +
-  ylab("Win Percentage") +
-  ylim(0,100) +
-  xlab("3-Pointers Made") +
-  stat_smooth(method=lm, col="red") +
-  ggtitle("3-Pointers Made and Win % During the 1970's")
-Seventies_Plot
 
-Seventies_Regression <- lm(winpercent ~ x3p_per_100_poss + x3pa_per_100_poss + x2p_per_100_poss + x2pa_per_100_poss + ft_per_100_poss + fta_per_100_poss + orb_per_100_poss + drb_per_100_poss + blk_per_100_poss + tov_per_100_poss + stl_per_100_poss + ast_per_100_poss, data = Seventies_3pt_Data)
+Seventies_Regression <- lm(winpercent ~ x2p_per_100_poss + x2pa_per_100_poss + ft_per_100_poss + fta_per_100_poss + orb_per_100_poss + drb_per_100_poss + blk_per_100_poss + tov_per_100_poss + stl_per_100_poss + ast_per_100_poss, data = Seventies_3pt_Data)
 export_summs(Seventies_Regression, model.names="Seventies Regression", to.file = "xlsx", file.name = "Gamma1970.xlsx")
 
 #Data, Plot, and Regression for 3-Point Importance During 1980's
